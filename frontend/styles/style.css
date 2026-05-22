@@ -1,49 +1,82 @@
-/* Modern Dark Glassmorphism CSS Design System for Technable Machine */
+/* ═══════════════════════════════════════════════════════════════════
+   TECHNABLE MACHINE — PREMIUM DARK GLASSMORPHISM DESIGN SYSTEM
+   Ultra-modern AI SaaS aesthetic with smooth animations
+   ═══════════════════════════════════════════════════════════════════ */
 
-/* Google Fonts Import for Outfit and Inter */
+/* Google Fonts Import */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap');
 
-/* Typography Overrides */
+/* ── Typography Overrides ── */
 html, body, [class*="css"] {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-/* Custom background for the whole application page */
+/* ── Application Background ── */
 .stApp {
-    background: radial-gradient(circle at 10% 20%, rgba(20, 20, 35, 1) 0%, rgba(10, 10, 20, 1) 90%);
+    background: linear-gradient(135deg, #0a0a1a 0%, #0f0f2e 40%, #1a0a2e 70%, #0a0a1a 100%);
     color: #f1f3f9;
 }
 
-/* Glassmorphic Container Cards */
+/* Subtle animated gradient orbs in background (pure CSS) */
+.stApp::before {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 30% 30%, rgba(99, 102, 241, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 70% 70%, rgba(139, 92, 246, 0.04) 0%, transparent 50%);
+    animation: bgShift 20s ease-in-out infinite alternate;
+    z-index: -1;
+    pointer-events: none;
+}
+
+@keyframes bgShift {
+    0%   { transform: translate(0, 0); }
+    100% { transform: translate(-5%, -5%); }
+}
+
+/* ── Glassmorphic Container Cards ── */
 .glass-card {
-    background: rgba(26, 26, 46, 0.45);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 18px;
-    padding: 24px;
+    background: rgba(15, 15, 40, 0.55);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 20px;
+    padding: 28px;
     margin-bottom: 24px;
-    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+                border-color 0.35s ease,
+                box-shadow 0.35s ease;
 }
 
 .glass-card:hover {
-    border-color: rgba(99, 102, 241, 0.4);
-    box-shadow: 0 12px 40px 0 rgba(99, 102, 241, 0.15);
-    transform: translateY(-2px);
+    border-color: rgba(99, 102, 241, 0.35);
+    box-shadow: 0 12px 44px rgba(99, 102, 241, 0.12),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    transform: translateY(-3px);
 }
 
-/* Sleek Header & Title Styling */
+/* ── Sleek Header & Title Styling ── */
 .main-title {
     font-family: 'Outfit', sans-serif;
     font-weight: 800;
-    font-size: 3rem !important;
-    background: linear-gradient(135deg, #a5b4fc 0%, #6366f1 50%, #4f46e5 100%);
+    font-size: 3.2rem !important;
+    background: linear-gradient(135deg, #c4b5fd 0%, #818cf8 30%, #6366f1 60%, #4f46e5 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     text-align: center;
     margin-bottom: 8px;
-    filter: drop-shadow(0 2px 8px rgba(99, 102, 241, 0.3));
+    filter: drop-shadow(0 4px 12px rgba(99, 102, 241, 0.35));
+    animation: titleGlow 3s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+    0%   { filter: drop-shadow(0 4px 12px rgba(99, 102, 241, 0.25)); }
+    100% { filter: drop-shadow(0 4px 20px rgba(99, 102, 241, 0.45)); }
 }
 
 .sub-title {
@@ -59,45 +92,47 @@ html, body, [class*="css"] {
     font-family: 'Outfit', sans-serif;
     font-weight: 700;
     font-size: 1.5rem;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
+    margin-top: 12px;
     color: #ffffff;
     display: flex;
     align-items: center;
     gap: 10px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    padding-bottom: 8px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding-bottom: 10px;
 }
 
-/* Customized Badges and States */
+/* ── Status Badges ── */
 .status-badge {
-    padding: 6px 14px;
+    padding: 6px 16px;
     border-radius: 9999px;
     font-size: 0.85rem;
     font-weight: 600;
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    transition: all 0.3s ease;
 }
 
 .status-online {
-    background: rgba(16, 185, 129, 0.15);
+    background: rgba(16, 185, 129, 0.12);
     color: #34d399;
-    border: 1px solid rgba(16, 185, 129, 0.3);
+    border: 1px solid rgba(16, 185, 129, 0.25);
 }
 
 .status-offline {
-    background: rgba(239, 68, 68, 0.15);
+    background: rgba(239, 68, 68, 0.12);
     color: #f87171;
-    border: 1px solid rgba(239, 68, 68, 0.3);
+    border: 1px solid rgba(239, 68, 68, 0.25);
 }
 
 .status-trained {
-    background: rgba(99, 102, 241, 0.15);
+    background: rgba(99, 102, 241, 0.12);
     color: #a5b4fc;
-    border: 1px solid rgba(99, 102, 241, 0.3);
+    border: 1px solid rgba(99, 102, 241, 0.25);
 }
 
-/* Category card elements */
+/* ── Category Card Elements ── */
 .class-header {
     display: flex;
     justify-content: space-between;
@@ -113,33 +148,34 @@ html, body, [class*="css"] {
 }
 
 .sample-counter {
-    background: rgba(255, 255, 255, 0.08);
-    padding: 3px 10px;
-    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.06);
+    padding: 4px 12px;
+    border-radius: 8px;
     font-size: 0.8rem;
     font-weight: 500;
     color: #cbd5e1;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.04);
 }
 
-/* Prediction Panel Styling */
+/* ── Prediction Hero Card ── */
 .predict-winning-card {
-    background: linear-gradient(135deg, rgba(99, 102, 241, 0.18) 0%, rgba(79, 70, 229, 0.08) 100%);
-    border: 1px solid rgba(99, 102, 241, 0.3);
-    border-radius: 16px;
-    padding: 24px;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15) 0%, rgba(139, 92, 246, 0.08) 100%);
+    border: 1px solid rgba(99, 102, 241, 0.25);
+    border-radius: 20px;
+    padding: 32px;
     text-align: center;
-    box-shadow: 0 8px 32px 0 rgba(99, 102, 241, 0.15);
-    margin-bottom: 20px;
+    box-shadow: 0 8px 40px rgba(99, 102, 241, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    margin-bottom: 24px;
 }
 
 .predict-winning-label {
     font-family: 'Outfit', sans-serif;
-    font-size: 2.2rem;
+    font-size: 2.5rem;
     font-weight: 800;
     color: #ffffff;
-    margin: 8px 0;
-    text-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+    margin: 12px 0 8px;
+    text-shadow: 0 0 20px rgba(99, 102, 241, 0.4);
 }
 
 .predict-winning-pct {
@@ -148,9 +184,9 @@ html, body, [class*="css"] {
     font-weight: 600;
 }
 
-/* Confidence List Styling */
+/* ── Confidence Bars ── */
 .confidence-item {
-    margin-bottom: 14px;
+    margin-bottom: 16px;
 }
 
 .confidence-row {
@@ -163,16 +199,18 @@ html, body, [class*="css"] {
 .confidence-label {
     font-weight: 500;
     color: #e2e8f0;
+    font-size: 0.95rem;
 }
 
 .confidence-value {
-    font-weight: 600;
+    font-weight: 700;
     color: #ffffff;
+    font-size: 0.95rem;
 }
 
 .confidence-bar-bg {
-    background: rgba(255, 255, 255, 0.08);
-    height: 10px;
+    background: rgba(255, 255, 255, 0.06);
+    height: 12px;
     border-radius: 9999px;
     overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.03);
@@ -181,30 +219,33 @@ html, body, [class*="css"] {
 .confidence-bar-fill {
     height: 100%;
     border-radius: 9999px;
-    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    background: linear-gradient(90deg, #6366f1 0%, #4f46e5 100%);
+    transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    background: linear-gradient(90deg, #6366f1 0%, #818cf8 100%);
 }
 
 .confidence-bar-fill-top {
-    background: linear-gradient(90deg, #10b981 0%, #059669 100%) !important;
+    background: linear-gradient(90deg, #10b981 0%, #34d399 100%) !important;
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.3);
 }
 
-/* Micro-animations and Hover styles for Streamlit elements */
+/* ── Primary Buttons ── */
 div.stButton > button {
     background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%) !important;
     color: white !important;
     border: none !important;
-    padding: 10px 24px !important;
+    padding: 12px 28px !important;
     font-weight: 600 !important;
-    border-radius: 10px !important;
-    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3) !important;
+    font-size: 0.95rem !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 18px rgba(99, 102, 241, 0.3) !important;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
     width: 100%;
+    letter-spacing: 0.3px;
 }
 
 div.stButton > button:hover {
     transform: translateY(-2px) !important;
-    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.5) !important;
+    box-shadow: 0 8px 25px rgba(99, 102, 241, 0.45) !important;
     background: linear-gradient(135deg, #818cf8 0%, #6366f1 100%) !important;
 }
 
@@ -212,49 +253,69 @@ div.stButton > button:active {
     transform: translateY(0px) !important;
 }
 
-/* Secondary Button overrides (like clear buttons) */
+/* Secondary (clear/reset) button */
 .clear-button div.stButton > button {
-    background: rgba(239, 68, 68, 0.1) !important;
+    background: rgba(239, 68, 68, 0.08) !important;
     color: #f87171 !important;
-    border: 1px solid rgba(239, 68, 68, 0.3) !important;
+    border: 1px solid rgba(239, 68, 68, 0.25) !important;
     box-shadow: none !important;
 }
 
 .clear-button div.stButton > button:hover {
-    background: rgba(239, 68, 68, 0.2) !important;
-    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.15) !important;
-    border-color: rgba(239, 68, 68, 0.5) !important;
+    background: rgba(239, 68, 68, 0.15) !important;
+    box-shadow: 0 4px 16px rgba(239, 68, 68, 0.12) !important;
+    border-color: rgba(239, 68, 68, 0.4) !important;
 }
 
-/* Helper styles for layout spacing */
-.mt-4 {
-    margin-top: 1.5rem;
-}
-.mb-4 {
-    margin-bottom: 1.5rem;
-}
-.text-center {
-    text-align: center;
-}
-.status-text {
-    font-size: 0.9rem;
-    color: #94a3b8;
-}
-
-/* Animations */
+/* ── Animations ── */
 @keyframes fadeInScale {
-    0% { opacity: 0; transform: scale(0.95); }
-    100% { opacity: 1; transform: scale(1); }
+    0%   { opacity: 0; transform: scale(0.96) translateY(8px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 
 .animate-fade-in {
     animation: fadeInScale 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
-/* Responsive Overrides */
+/* ── Helper Classes ── */
+.mt-4 { margin-top: 1.5rem; }
+.mb-4 { margin-bottom: 1.5rem; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.status-text {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    line-height: 1.6;
+}
+
+/* ── Responsive ── */
 @media (max-width: 768px) {
     .main-title { font-size: 2.2rem !important; }
     .sub-title { font-size: 1rem; margin-bottom: 24px; }
-    .glass-card { padding: 16px; margin-bottom: 16px; }
+    .glass-card { padding: 18px; margin-bottom: 16px; }
     .predict-winning-label { font-size: 1.8rem; }
+    .predict-winning-card { padding: 24px; }
+}
+
+/* ── Streamlit Element Overrides ── */
+/* Make file uploader, camera input, text input blend with the theme */
+.stTextInput > div > div > input {
+    background-color: rgba(15, 15, 40, 0.6) !important;
+    color: #f1f3f9 !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 10px !important;
+}
+
+.stTextInput > div > div > input:focus {
+    border-color: rgba(99, 102, 241, 0.5) !important;
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.15) !important;
+}
+
+/* Streamlit form submit button matching */
+.stFormSubmitButton > button {
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
 }
