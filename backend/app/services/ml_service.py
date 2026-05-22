@@ -240,3 +240,19 @@ class MLService:
         """
         self.classifier = None
         self.class_mapping = None
+
+
+# Singleton instance pattern for lifespan management
+_ml_service_instance: Optional[MLService] = None
+
+def get_ml_service() -> MLService:
+    """
+    Dependency Injection provider function.
+    Ensures that only a single instance of MLService (and thus only one copy
+    of the pre-trained MobileNetV3 PyTorch model) is initialized and kept in memory.
+    """
+    global _ml_service_instance
+    if _ml_service_instance is None:
+        _ml_service_instance = MLService()
+    return _ml_service_instance
+
