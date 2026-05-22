@@ -169,7 +169,28 @@ FastAPI handles large file uploads efficiently. However, when uploading hundreds
 
 ---
 
-## 🔮 Future Improvements (Phase 2)
-- Build a premium glassmorphic Streamlit UI replicating Google's Teachable Machine workflow.
-- Integrate WebRTC camera inputs for real-time video stream predicting.
-- Package both services into a unified `docker-compose.yml` configuration.
+## 🎨 Streamlit Frontend
+
+The application now features a fully decoupled, premium glassmorphic Streamlit interface.
+
+### Running the Frontend
+Open a **new** Anaconda prompt, ensuring your backend is already running on port 8000.
+
+```powershell
+# Activate environment
+conda activate technable
+
+# Navigate to frontend folder
+cd frontend
+
+# Start the Streamlit dashboard
+streamlit run app.py
+```
+
+The application will automatically open in your browser at `http://localhost:8501`.
+
+### Communication Flow
+1. **Frontend (Streamlit)**: Captures webcam frames or file uploads and manages UI state.
+2. **REST Service (api_service.py)**: Sends data via HTTP POST requests to `127.0.0.1:8000`.
+3. **Backend (FastAPI)**: Extracts MobileNetV3 features, trains the Logistic Regression classifier, and returns confidence scores.
+
