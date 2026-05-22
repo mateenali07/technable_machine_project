@@ -2,6 +2,10 @@ import os
 from pathlib import Path
 from pydantic_settings import BaseSettings
 
+# Avoid OpenMP duplicate runtime library conflict crashes in Anaconda environments
+os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
+
+
 class Settings(BaseSettings):
     """
     Centralized configuration for the Teachable Machine Backend.
