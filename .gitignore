@@ -61,6 +61,10 @@ saved_models/
 # Log files
 *.log
 
+# Environment Files
+.env
+.env.local
+
 # Docker/Compose files
 # Note: we keep Dockerfile and docker-compose.yml, but ignore local container volume data if any
 

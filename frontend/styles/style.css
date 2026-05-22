@@ -240,3 +240,21 @@ div.stButton > button:active {
     font-size: 0.9rem;
     color: #94a3b8;
 }
+
+/* Animations */
+@keyframes fadeInScale {
+    0% { opacity: 0; transform: scale(0.95); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+.animate-fade-in {
+    animation: fadeInScale 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Responsive Overrides */
+@media (max-width: 768px) {
+    .main-title { font-size: 2.2rem !important; }
+    .sub-title { font-size: 1rem; margin-bottom: 24px; }
+    .glass-card { padding: 16px; margin-bottom: 16px; }
+    .predict-winning-label { font-size: 1.8rem; }
+}

@@ -228,12 +228,12 @@ with layout_col2:
         
         st.markdown(
             f"""
-            <div class="glass-card mb-4">
+            <div class="glass-card mb-4 animate-fade-in">
                 <div style="font-weight:600; font-size:1.1rem; margin-bottom:12px; color:#ffffff;">
-                    Training Summary
+                    Training Summary & Dataset Statistics
                 </div>
-                <p class="status-text">Active Categories: <b>{active_classes_count}</b></p>
-                <p class="status-text">Total Image Samples Uploaded: <b>{total_samples}</b></p>
+                <p class="status-text">Active Categories: <b style="color:white">{active_classes_count}</b></p>
+                <p class="status-text">Total Image Samples Uploaded: <b style="color:white">{total_samples}</b></p>
             </div>
             """,
             unsafe_allow_html=True
@@ -291,8 +291,26 @@ with layout_col2:
                 else:
                     st.error(message)
 
-    st.markdown("---")
+    # 1.5 Download Model Button (only if trained)
+    if st.session_state.model_trained:
+        st.markdown('<div class="mt-4"></div>', unsafe_allow_html=True)
+        # We can stream the file via requests and provide a download button
+        try:
+            import requests
+            # Point to local fastAPI server
+            response = requests.get(f"{api_service.base_url}/download-model", stream=True)
+            if response.status_code == 200:
+                st.download_button(
+                    label="💾 Download Trained Model (.joblib)",
+                    data=response.raw.read(),
+                    file_name="teachable_machine_model.joblib",
+                    mime="application/octet-stream",
+                    help="Download the trained scikit-learn model for local inference."
+                )
+        except Exception as e:
+            logger.error(f"Failed to fetch downloadable model: {e}")
 
+    st.markdown("---")
     # 2. Prediction Panel
     # Only render testing utilities and prediction components if a trained model weights file exists
     if st.session_state.model_trained:

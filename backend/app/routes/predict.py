@@ -61,3 +61,23 @@ async def predict_image(
         confidence=confidence,
         all_confidences=all_confidences
     )
+
+from fastapi.responses import FileResponse
+from app.core.config import settings
+import os
+
+@router.get("/download-model")
+async def download_model():
+    """
+    Downloads the trained scikit-learn Logistic Regression model.
+    """
+    if not os.path.exists(settings.model_path):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Model file not found. Have you trained the model yet?"
+        )
+    return FileResponse(
+        path=settings.model_path,
+        filename="teachable_machine_model.joblib",
+        media_type="application/octet-stream"
+    )

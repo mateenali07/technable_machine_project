@@ -43,9 +43,8 @@ class Settings(BaseSettings):
     def class_mapping_path(self) -> Path:
         return self.SAVED_MODELS_DIR / self.CLASS_MAPPING_FILENAME
 
-    class Config:
-        env_prefix = "TM_"  # Envs like TM_IMAGE_SIZE will override defaults
-
+    from pydantic_settings import SettingsConfigDict
+    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", case_sensitive=True, extra="ignore")
 # Centralized settings instance
 settings = Settings()
 
