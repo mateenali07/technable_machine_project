@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 # Avoid OpenMP duplicate runtime library conflict crashes in Anaconda environments
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
@@ -43,8 +43,12 @@ class Settings(BaseSettings):
     def class_mapping_path(self) -> Path:
         return self.SAVED_MODELS_DIR / self.CLASS_MAPPING_FILENAME
 
-    from pydantic_settings import SettingsConfigDict
-    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", case_sensitive=True, extra="ignore")
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8",
+        case_sensitive=True,
+        extra="ignore"
+    )
 # Centralized settings instance
 settings = Settings()
 

@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 from PIL import Image
 from typing import Dict, Any, Callable, Tuple
 
@@ -151,50 +152,93 @@ def render_prediction_panel(
             conf_label, conf_color = get_confidence_label(confidence)
             pct = confidence * 100
             
-            # --- HERO PREDICTION CARD ---
+            # --- DETECT HUMAN FOR TTS SPEECH ---
+            is_human = (semantic_type == "Human") or (predicted_class.lower() in ["human", "person", "man", "woman", "insaan", "face", "girl", "boy"])
+            if is_human:
+                speech_text = f"The model has detected a human! It recognized this as {predicted_class}."
+            else:
+                speech_text = f"The model has predicted {predicted_class} with {pct:.1f} percent confidence."
+            
+            clean_speech_text = speech_text.replace("'", "\\'").replace('"', '\\"')
+            
+            # --- HERO PREDICTION CARD WITH INTEGRATED BAR & SPEAK BUTTON ---
             st.markdown(
                 f"""
-                <div class="predict-winning-card animate-fade-in">
+                <div class="predict-winning-card animate-fade-in" style="position: relative;">
                     <div style="font-size: 0.85rem; color: #94a3b8; letter-spacing: 2px; text-transform: uppercase;">
-                        TOP PREDICTION
+                        WINNING PREDICTION
                     </div>
                     <div class="predict-winning-label">{emoji} {predicted_class}</div>
-                    <div style="font-size: 1rem; color: #a5b4fc; margin-bottom: 8px;">
-                        {semantic_type}: {predicted_class}
+                    <div style="font-size: 1.1rem; color: #a5b4fc; margin-bottom: 12px; font-weight: 500;">
+                        Category: {semantic_type}
                     </div>
-                    <div style="font-size: 1.5rem; font-weight: 700; color: {conf_color};">
-                        {pct:.1f}%
+                    
+                    <!-- Animated Full-Width Confidence Bar -->
+                    <div style="margin: 20px auto; max-width: 500px; text-align: left;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 0.9rem; color: #cbd5e1; font-weight: 600;">
+                            <span>{conf_label}</span>
+                            <span>{pct:.1f}%</span>
+                        </div>
+                        <div style="background: rgba(255, 255, 255, 0.08); height: 16px; border-radius: 9999px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.05); box-shadow: inset 0 1px 3px rgba(0,0,0,0.4);">
+                            <div style="background: linear-gradient(90deg, #10b981 0%, #34d399 100%); height: 100%; width: {pct:.1f}%; border-radius: 9999px; box-shadow: 0 0 12px rgba(16, 185, 129, 0.4); transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);"></div>
+                        </div>
                     </div>
-                    <div style="font-size: 0.85rem; color: {conf_color}; margin-top: 4px;">
-                        {conf_label}
-                    </div>
+
+                    <!-- Audio Speech Button -->
+                    <button onclick="
+                        try {{
+                            const msg = new SpeechSynthesisUtterance('{clean_speech_text}');
+                            const synth = window.speechSynthesis || (window.parent && window.parent.speechSynthesis);
+                            if (synth) {{
+                                synth.cancel();
+                                synth.speak(msg);
+                            }}
+                        }} catch(e) {{
+                            console.error('Speech synthesis failed:', e);
+                        }}
+                    " style="
+                        background: rgba(99, 102, 241, 0.2);
+                        border: 1px solid rgba(99, 102, 241, 0.4);
+                        color: #a5b4fc;
+                        padding: 10px 24px;
+                        border-radius: 9999px;
+                        cursor: pointer;
+                        font-size: 0.95rem;
+                        font-weight: 600;
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 8px;
+                        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+                        margin-top: 5px;
+                        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
+                    " onmouseover="this.style.background='rgba(99, 102, 241, 0.35)'; this.style.transform='scale(1.05)'" onmouseout="this.style.background='rgba(99, 102, 241, 0.2)'; this.style.transform='scale(1)'">
+                        🔊 Speak Prediction
+                    </button>
                 </div>
                 """,
                 unsafe_allow_html=True
             )
             
-            # --- ALL CONFIDENCE BARS ---
-            bars_html = ""
-            sorted_classes = sorted(all_confidences.items(), key=lambda item: item[1], reverse=True)
-            
-            for class_name, conf_val in sorted_classes:
-                is_top = (class_name == predicted_class)
-                bars_html += render_confidence_bar(class_name, conf_val, is_top)
-                
-            st.markdown(
-                f"""
-                <div class="glass-card animate-fade-in">
-                    <div style="font-weight:600; font-size:1.1rem; margin-bottom:16px; color:#ffffff;">
-                        📊 Probability Breakdown
-                    </div>
-                    {bars_html}
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
+            # --- AUTO PLAY SPEECH SYNTHESIS ON SUCCESS ---
+            js_code = f"""
+            <script>
+            try {{
+                const msg = new SpeechSynthesisUtterance("{clean_speech_text}");
+                const synth = window.speechSynthesis || (window.parent && window.parent.speechSynthesis);
+                if (synth) {{
+                    synth.cancel();
+                    synth.speak(msg);
+                }}
+            }} catch (e) {{
+                console.error("Auto speech play blocked or failed:", e);
+            }}
+            </script>
+            """
+            components.html(js_code, height=0, width=0)
             
             # --- AI INSIGHT PANEL (XAI) ---
             # Build human-readable explanation
+            sorted_classes = sorted(all_confidences.items(), key=lambda item: item[1], reverse=True)
             runner_up = ""
             if len(sorted_classes) > 1:
                 runner_up_name = sorted_classes[1][0]
